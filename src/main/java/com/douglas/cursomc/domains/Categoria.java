@@ -2,11 +2,22 @@ package com.douglas.cursomc.domains;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table(name = "CATEGORIA")
+@Entity
 public class Categoria implements Serializable {
 	
 	private static final long serialVersionUID = -2417543205207199322L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
 	
 	public Categoria() {
