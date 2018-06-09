@@ -12,30 +12,31 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CIDADE")
-public class Cidade implements Serializable{
+public class Cidade implements Serializable {
 
 	private static final long serialVersionUID = 901538361708931078L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String nome;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_ESTADO")
 	private Estado estado;
-	
+
+
 	public Cidade() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Cidade(Integer id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
 	}
-	
+
 	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		this.id = id;
@@ -46,25 +47,27 @@ public class Cidade implements Serializable{
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public Estado getEstado() {
 		return estado;
 	}
+
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,7 +76,7 @@ public class Cidade implements Serializable{
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
