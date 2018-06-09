@@ -10,26 +10,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "ESTADO")
-public class Estado implements Serializable{
-	
+public class Estado implements Serializable {
+
 	private static final long serialVersionUID = 1302593246462661398L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String nome;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "estado")
 	private List<Cidade> cidades = new ArrayList<>();
-	
+
 	public Estado() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 	public Estado(Integer id, String nome) {
 		super();
 		this.id = id;
@@ -56,11 +59,9 @@ public class Estado implements Serializable{
 		return cidades;
 	}
 
-
 	public void setCidades(List<Cidade> cidades) {
 		this.cidades = cidades;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -86,5 +87,5 @@ public class Estado implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

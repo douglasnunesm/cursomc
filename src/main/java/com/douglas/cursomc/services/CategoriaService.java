@@ -9,13 +9,14 @@ import com.douglas.cursomc.repositories.CategoriaRepository;
 import javassist.tools.rmi.ObjectNotFoundException;
 
 @Service
-public class CategoriaService  {
-	
+public class CategoriaService {
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
+
 	public Categoria buscar(Integer id) throws ObjectNotFoundException {
-		
-		return categoriaRepository.findById(id).orElseThrow( () -> new ObjectNotFoundException(Categoria.class.getSimpleName()));
+
+		return categoriaRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException(Categoria.class.getSimpleName()));
 	}
 }
