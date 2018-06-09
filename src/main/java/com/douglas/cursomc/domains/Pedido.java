@@ -1,6 +1,11 @@
 package com.douglas.cursomc.domains;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,12 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "PEDIDO")
-public class Pedido {
+public class Pedido implements Serializable{
+
+	private static final long serialVersionUID = -1947789491888996832L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +41,9 @@ public class Pedido {
 	@JoinColumn(name = "ID_CLIENTE")
 	private Cliente cliente;
 
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
+
 	public Pedido() {
 		// TODO Auto-generated constructor stub
 	}
@@ -43,6 +54,14 @@ public class Pedido {
 		this.instante = instante;
 		this.endereco = endereco;
 		this.cliente = cliente;
+	}
+	
+	public List<Produto> getProdutos(){
+		List<Produto> produtos = new ArrayList<>();
+		for (ItemPedido item : itens) {
+			produtos.add(item.getProduto());
+		}
+		return produtos;
 	}
 
 	public Endereco getEndereco() {
@@ -83,6 +102,14 @@ public class Pedido {
 
 	public void setPagamento(Pagamento pagamento) {
 		this.pagamento = pagamento;
+	}
+
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	@Override
