@@ -34,8 +34,9 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) throws ObjectNotFoundException {
-		find(obj.getId());
-		return categoriaRepository.save(obj);
+		Categoria categoria = find(obj.getId());
+		updateData(obj, categoria);
+		return categoriaRepository.save(categoria);
 	}
 	
 	public void delete(Integer id) throws ObjectNotFoundException {
@@ -60,6 +61,11 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO dto) {
 		return new Categoria(dto.getId(), dto.getNome());
+	}
+	
+	
+	private void updateData(Categoria antigo, Categoria novo) {
+		novo.setNome(antigo.getNome());
 	}
 	
 }
