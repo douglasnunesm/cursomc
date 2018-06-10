@@ -29,8 +29,9 @@ public class ClienteService {
 	
 
 	public Cliente update(Cliente obj) throws ObjectNotFoundException {
-		find(obj.getId());
-		return clienteRepository.save(obj);
+		Cliente cliente = find(obj.getId());
+		updateData(obj,cliente);
+		return clienteRepository.save(cliente);
 	}
 	
 	public void delete(Integer id) throws ObjectNotFoundException {
@@ -55,5 +56,10 @@ public class ClienteService {
 	
 	public Cliente fromDTO(ClienteDTO dto) {
 		return new Cliente(dto.getId(), dto.getNome(), dto.getEmail());
+	}
+	
+	private void updateData(Cliente antigo, Cliente novo) {
+		novo.setNome(antigo.getNome());
+		novo.setEmail(antigo.getEmail());
 	}
 }
