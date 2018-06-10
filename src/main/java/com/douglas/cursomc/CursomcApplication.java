@@ -70,6 +70,11 @@ public class CursomcApplication implements CommandLineRunner {
 
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "Cama, mesa e banho");
+		Categoria cat4 = new Categoria(null, "Eletronicos");
+		Categoria cat5 = new Categoria(null, "Jardinagem");
+		Categoria cat6 = new Categoria(null, "Decoração");
+		Categoria cat7 = new Categoria(null, "Perfumaria");
 
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
@@ -104,9 +109,14 @@ public class CursomcApplication implements CommandLineRunner {
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		clienteRepository.save(cli1);
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		
+		for(int i = 1 ; i< 100;i++) {
+			
+			categoriaRepository.save(new Categoria(null, "Categoria " + i));
+		}
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), e1, cli1);
@@ -136,6 +146,6 @@ public class CursomcApplication implements CommandLineRunner {
 		p3.getItens().addAll(Arrays.asList(ip2));
 
 		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
-		
+
 	}
 }
