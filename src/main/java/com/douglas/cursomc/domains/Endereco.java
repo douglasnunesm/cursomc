@@ -23,13 +23,9 @@ public class Endereco implements Serializable {
 	private Integer id;
 
 	private String logradouro;
-
 	private String bairro;
-
 	private String numero;
-
 	private String complemento;
-
 	private String cep;
 	
 	@JsonIgnore
