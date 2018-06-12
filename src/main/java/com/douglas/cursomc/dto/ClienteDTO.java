@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.douglas.cursomc.domains.Cliente;
+import com.douglas.cursomc.services.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
 
 	private static final long serialVersionUID = 5572008905188670853L;
