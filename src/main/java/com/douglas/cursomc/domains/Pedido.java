@@ -60,6 +60,13 @@ public class Pedido implements Serializable{
 		this.cliente = cliente;
 	}
 	
+	public Double getValorTotal() {
+		Double soma = 0.0;
+		for(ItemPedido item : itens)
+			soma+= item.getSubTotal();
+		return soma;
+	}
+	
 	@JsonIgnore
 	public List<Produto> getProdutos(){
 		List<Produto> produtos = new ArrayList<>();
