@@ -38,6 +38,9 @@ public class PedidoService {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private ClienteService clienteService;
 
 	public Pedido find(Integer id) throws ObjectNotFoundException {
 
@@ -46,7 +49,7 @@ public class PedidoService {
 	}
 	
 	@Transactional
-	public Pedido insert(Pedido pedido)  {
+	public Pedido insert(Pedido pedido) throws ObjectNotFoundException  {
 		pedido.setId(null);
 		pedido.setInstante(new Date());
 		pedido.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
@@ -62,16 +65,19 @@ public class PedidoService {
 		for (ItemPedido item : pedido.getItens()) {
 			item.setDesconto(0.0);
 			try {
-				item.setPreco(produtoService.find(item.getProduto().getId()).getPreco());
+				item.setProduto(produtoService.find(item.getProduto().getId()));
+				item.setPreco(item.getProduto().getPreco());
 				item.setPedido(pedido);
 			} catch (ObjectNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
+		
 		itemPedidoRepository.saveAll(pedido.getItens());
-		
 		pedido.setEndereco(enderecoRepository.findById(pedido.getEndereco().getId()).orElse(null));
-		
+		pedido.setCliente(clienteService.find(pedido.getCliente().getId()));
+		pedido.setPagamento(pagamentoRepository.findById(pedido.getId()).orElse(null));
+		System.out.println(pedido);
 		return pedido;
 	}
 }
