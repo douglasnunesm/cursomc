@@ -80,7 +80,7 @@ public class PedidoService {
 		pedido.setEndereco(enderecoRepository.findById(pedido.getEndereco().getId()).orElse(null));
 		pedido.setCliente(clienteService.find(pedido.getCliente().getId()));
 		pedido.setPagamento(pagamentoRepository.findById(pedido.getId()).orElse(null));
-		emailService.sendOrderConfirmationEmail(pedido);
+		emailService.sendOrderConfirmationHtmlEmail(pedido);
 		return pedido;
 	}
 }
