@@ -41,6 +41,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public Pedido find(Integer id) throws ObjectNotFoundException {
 
@@ -77,7 +80,7 @@ public class PedidoService {
 		pedido.setEndereco(enderecoRepository.findById(pedido.getEndereco().getId()).orElse(null));
 		pedido.setCliente(clienteService.find(pedido.getCliente().getId()));
 		pedido.setPagamento(pagamentoRepository.findById(pedido.getId()).orElse(null));
-		System.out.println(pedido);
+		emailService.sendOrderConfirmationEmail(pedido);
 		return pedido;
 	}
 }
