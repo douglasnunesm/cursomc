@@ -37,6 +37,9 @@ public class Cliente implements Serializable {
 	private String email;
 	private String cpfCpnj;
 
+	@JsonIgnore
+	private String senha;
+	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "TIPO")
 	private TipoCliente tipoCliente;
@@ -56,13 +59,14 @@ public class Cliente implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfCpnj, TipoCliente tipoCliente) {
+	public Cliente(Integer id, String nome, String email, String cpfCpnj, TipoCliente tipoCliente, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfCpnj = cpfCpnj;
 		this.tipoCliente = tipoCliente;
+		this.senha = senha;
 	}
 
 	public Cliente(Integer id, String nome, String email) {
@@ -71,6 +75,15 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 	}
+	
+	public Cliente(Integer id, String nome, String email, String senha) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -134,6 +147,16 @@ public class Cliente implements Serializable {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+	
+	
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	@Override

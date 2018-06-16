@@ -11,6 +11,10 @@ import org.hibernate.validator.constraints.Length;
 
 import com.douglas.cursomc.services.validation.ClienteInsert;
 
+/**
+ * @author dougl
+ *
+ */
 @ClienteInsert
 public class ClienteNewDTO implements Serializable{
 
@@ -46,6 +50,9 @@ public class ClienteNewDTO implements Serializable{
 	private List<String> telefones = new ArrayList<>();
 	
 	private Integer idCidade;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
+	private String senha;
 	
 	public ClienteNewDTO() {
 		// TODO Auto-generated constructor stub
@@ -137,6 +144,14 @@ public class ClienteNewDTO implements Serializable{
 
 	public void setIdCidade(Integer idCidade) {
 		this.idCidade = idCidade;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	
 	
