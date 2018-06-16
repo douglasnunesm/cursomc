@@ -20,6 +20,7 @@ import com.douglas.cursomc.domains.PagamentoCartao;
 import com.douglas.cursomc.domains.Pedido;
 import com.douglas.cursomc.domains.Produto;
 import com.douglas.cursomc.domains.enums.EstadoPagamento;
+import com.douglas.cursomc.domains.enums.Perfil;
 import com.douglas.cursomc.domains.enums.TipoCliente;
 import com.douglas.cursomc.repositories.CategoriaRepository;
 import com.douglas.cursomc.repositories.CidadeRepository;
@@ -109,33 +110,42 @@ public class DBService {
 		
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
-
+		Estado est3 = new Estado(null, "Brasilia");
+		
 		Cidade c1 = new Cidade(null, "Uberlândia", est1);
 		Cidade c2 = new Cidade(null, "São Paulo", est2);
 		Cidade c3 = new Cidade(null, "Campinas", est2);
-
+		Cidade c4 = new Cidade(null, "Taguatinga", est3);
+		
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		est3.getCidades().add(c4);
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "douglasnunes.m@gmail.com", "36378912377", TipoCliente.PESSOAFISICA,encoder.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Cliente cli2 = new Cliente(null, "Ruth Borges", "ruthblinhares@gmail.com", "21961635038", TipoCliente.PESSOAFISICA,encoder.encode("123"));
+		cli2.getTelefones().addAll(Arrays.asList("223363323", "931212893"));
+		cli2.addPerfil(Perfil.ADMIN);
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "Jardim", "300", "Apto 203", "38220834", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "Centro", "105", "Sala 800", "38777012", cli1, c2);
-
+		Endereco e3 = new Endereco(null, "QI 3", "Taguatinga Norte", "1112", "Altos", "72135030", cli2, c4);
+		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
-
-		estadoRepository.saveAll(Arrays.asList(est1, est2));
-		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
-		clienteRepository.save(cli1);
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().add(e3);	
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2,est3));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3,c4));
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2,e3));
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
-		for (int i = 1; i < 100; i++) {
-
-			categoriaRepository.save(new Categoria(null, "Categoria " + i));
-		}
+//		for (int i = 1; i < 100; i++) {
+//
+//			categoriaRepository.save(new Categoria(null, "Categoria " + i));
+//		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 

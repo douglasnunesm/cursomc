@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.douglas.cursomc.domains.enums.Perfil;
 import com.douglas.cursomc.domains.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -54,9 +55,15 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
+	
+	@Enumerated(EnumType.ORDINAL)
+	@ElementCollection
+	@CollectionTable(name = "PERFIS")
+	private Set<Perfil> perfis = new HashSet<>();
+	
 
 	public Cliente() {
-		// TODO Auto-generated constructor stub
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Cliente(Integer id, String nome, String email, String cpfCpnj, TipoCliente tipoCliente, String senha) {
@@ -67,6 +74,7 @@ public class Cliente implements Serializable {
 		this.cpfCpnj = cpfCpnj;
 		this.tipoCliente = tipoCliente;
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Cliente(Integer id, String nome, String email) {
@@ -149,7 +157,17 @@ public class Cliente implements Serializable {
 		this.pedidos = pedidos;
 	}
 	
+	public Set<Perfil> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(Set<Perfil> perfis) {
+		this.perfis = perfis;
+	}
 	
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil);
+	}
 
 	public String getSenha() {
 		return senha;
