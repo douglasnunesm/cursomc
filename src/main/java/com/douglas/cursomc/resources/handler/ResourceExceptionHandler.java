@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.douglas.cursomc.services.exceptions.AuthorizationException;
 import com.douglas.cursomc.services.exceptions.DataIntegrityException;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -41,5 +42,13 @@ public class ResourceExceptionHandler {
 			validationError.addError(field.getField(), field.getDefaultMessage());
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
+	}
+	
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> accessDenied(AuthorizationException e, HttpServletRequest request){
+		
+		ValidationError validationError = new ValidationError(HttpStatus.FORBIDDEN.value(), "Acesso Negado", System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(validationError);
 	}
 }

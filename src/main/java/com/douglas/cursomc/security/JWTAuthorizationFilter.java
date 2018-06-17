@@ -18,7 +18,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	
 	private static final String AUTHORIZATION = "Authorization";
 	
-	private static final String BEARER = "Bearer";
+	private static final String BEARER = "Bearer ";
 
 	private JWTUtil jwtUtil;
 
@@ -52,7 +52,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		if(jwtUtil.tokenValido(token)) {
 			String username = jwtUtil.getUsername(token);
 			UserDetails user = userDetailsService.loadUserByUsername(username);
-			return new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
+			return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 		}
 		
 		return null;

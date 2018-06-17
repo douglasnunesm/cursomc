@@ -15,11 +15,14 @@ import org.springframework.stereotype.Service;
 import com.douglas.cursomc.domains.Cidade;
 import com.douglas.cursomc.domains.Cliente;
 import com.douglas.cursomc.domains.Endereco;
+import com.douglas.cursomc.domains.enums.Perfil;
 import com.douglas.cursomc.domains.enums.TipoCliente;
 import com.douglas.cursomc.dto.ClienteDTO;
 import com.douglas.cursomc.dto.ClienteNewDTO;
 import com.douglas.cursomc.repositories.ClienteRepository;
 import com.douglas.cursomc.repositories.EnderecoRepository;
+import com.douglas.cursomc.security.UserSS;
+import com.douglas.cursomc.services.exceptions.AuthorizationException;
 import com.douglas.cursomc.services.exceptions.DataIntegrityException;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -29,14 +32,24 @@ public class ClienteService {
 
 	@Autowired
 	transient ClienteRepository clienteRepository;
-	
+
 	@Autowired
 	transient EnderecoRepository enderecoRepository;
-	
+
 	@Autowired
 	transient BCryptPasswordEncoder encoder;
 
 	public Cliente find(Integer id) throws ObjectNotFoundException {
+
+		UserSS user = UserService.authenticated();
+		Cliente cliente = clienteRepository.findById(id).orElse(null);
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
+		if(cliente != null) {
+			
+		}
 		return clienteRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException(Cliente.class.getSimpleName()));
 	}
@@ -81,15 +94,15 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(ClienteNewDTO dto) {
-		
+
 		Cliente cliente = new Cliente(null, dto.getNome(), dto.getEmail(), dto.getCpfCpnj(),
-				TipoCliente.getEnumByCod(dto.getTipo()),encoder.encode(dto.getSenha()));
-		
+				TipoCliente.getEnumByCod(dto.getTipo()), encoder.encode(dto.getSenha()));
+
 		Cidade cidade = new Cidade(dto.getIdCidade(), null);
 		Endereco endereco = new Endereco(null, dto.getLogradouro(), dto.getBairro(), dto.getNumero(),
 				dto.getComplemento(), dto.getCep(), cliente, cidade);
 		cliente.getEnderecos().add(endereco);
-		
+
 		dto.getTelefones().forEach(item -> cliente.getTelefones().add(item));
 
 		return cliente;

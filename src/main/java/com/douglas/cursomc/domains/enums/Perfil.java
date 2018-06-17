@@ -2,7 +2,7 @@ package com.douglas.cursomc.domains.enums;
 
 public enum Perfil {
 
-	VAZIO(0,"VAZIO"), ADMIN(1,"ROLE_ADMIN"), CLIENTE(2,"ROLE_CLEINTE");
+	VAZIO(0, "VAZIO"), ADMIN(1, "ROLE_ADMIN"), CLIENTE(2, "ROLE_CLIENTE");
 
 	private Integer cod;
 	private String descricao;
@@ -11,7 +11,7 @@ public enum Perfil {
 		this.cod = cod;
 		this.descricao = descricao;
 	}
-	
+
 	public Integer getCod() {
 		return cod;
 	}
@@ -20,15 +20,14 @@ public enum Perfil {
 		return descricao;
 	}
 
-	
 	public Perfil getEnumByCod(Integer cod) {
-		
+
 		for (Perfil perfil : values()) {
-			if(perfil.getCod().equals(cod))
+			if (perfil.getCod().equals(cod))
 				return perfil;
 		}
-		
+
 		return null;
 	}
-	
+
 }
