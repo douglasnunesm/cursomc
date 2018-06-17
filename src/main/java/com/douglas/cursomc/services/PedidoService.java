@@ -5,8 +5,12 @@ import java.util.Date;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.douglas.cursomc.domains.Cliente;
 import com.douglas.cursomc.domains.ItemPedido;
 import com.douglas.cursomc.domains.PagamentoBoleto;
 import com.douglas.cursomc.domains.Pedido;
@@ -15,6 +19,7 @@ import com.douglas.cursomc.repositories.EnderecoRepository;
 import com.douglas.cursomc.repositories.ItemPedidoRepository;
 import com.douglas.cursomc.repositories.PagamentoRepository;
 import com.douglas.cursomc.repositories.PedidoRepository;
+import com.douglas.cursomc.security.UserSS;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -82,5 +87,13 @@ public class PedidoService {
 		pedido.setPagamento(pagamentoRepository.findById(pedido.getId()).orElse(null));
 		emailService.sendOrderConfirmationHtmlEmail(pedido);
 		return pedido;
+	}
+	
+	public Page<Pedido> findByCliente( Integer page, Integer linesPerPage, String orderBy, Direction direction) throws ObjectNotFoundException {
+		UserSS user = UserService.authenticated();
+		Cliente cliente = clienteService.find(user.getId());
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, direction, orderBy);
+		
+		return pedidoRepository.findByCliente(cliente, pageRequest);
 	}
 }
